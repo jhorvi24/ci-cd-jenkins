@@ -18,6 +18,7 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: "${DOCKER_REGISTRY_CREDS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
           sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin docker.io"
           sh 'docker push $DOCKER_PORTFOLIO_APP'
+          sh 'docker run -d --name app-portfolio -p 5000:5000 $DOCKER_PORTFOLIO_APP'
         }
       }
     }
